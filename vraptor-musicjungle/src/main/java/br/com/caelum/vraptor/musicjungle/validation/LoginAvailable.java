@@ -11,7 +11,7 @@ import javax.validation.Payload;
 
 import br.com.caelum.vraptor.musicjungle.validation.impl.LoginAvailableValidator;
 
-@Target({ ElementType.PARAMETER })
+@Target({ ElementType.PARAMETER, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = { LoginAvailableValidator.class })
 @Documented

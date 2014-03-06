@@ -25,9 +25,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,9 +69,12 @@ public class MusicController {
 
 	private Result result;
 	private Validator validator;
+	private javax.validation.Validator v;
 	private UserInfo userInfo;
 	private MusicDao musicDao;
 	private Musics musics;
+
+	private EntityManager em;
 
 	// CDI eyes only
 	@Deprecated
@@ -86,12 +91,14 @@ public class MusicController {
 	 */
 	@Inject
 	public MusicController(MusicDao musicDao, UserInfo userInfo, 
-				Result result, Validator validator, Musics musics) {
+				Result result, Validator validator, Musics musics, 
+				EntityManager em) {
 		this.musicDao = musicDao;
 		this.result = result;
         this.validator = validator;
         this.userInfo = userInfo;
 		this.musics = musics;
+		this.em = em;
 	}
 
 	/**
@@ -205,9 +212,17 @@ public class MusicController {
 	@Public @Path("/musics/list/form")
 	public void listForm() {}
 	
+	
 	@Public @Path("musics/listAs")
 	public void listAs() {
 		result.use(representation())
 			.from(musicDao.listAll()).serialize();
+	}
+	
+	@Public @Path("/foo")
+	public void foo() {
+		Music music = new Music();
+//		v.validate(music);
+		em.persist(music);
 	}
 }

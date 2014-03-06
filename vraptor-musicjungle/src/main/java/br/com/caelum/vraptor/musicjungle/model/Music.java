@@ -30,6 +30,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import br.com.caelum.vraptor.musicjungle.enums.MusicType;
+import br.com.caelum.vraptor.musicjungle.validation.LoginAvailable;
 
 /**
  * Music entity representing the table Music from 
@@ -57,6 +58,9 @@ public class Music {
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private MusicType type;
+	
+	@LoginAvailable
+	private User dummy;
 
 	public String getDescription() {
 		return description;
@@ -134,4 +138,8 @@ public class Music {
 			", description=" + description + ", type=" + type + "]";
 	}
 	
+	
+	public void setDummy(User dummy) {
+		this.dummy = dummy;
+	}
 }
