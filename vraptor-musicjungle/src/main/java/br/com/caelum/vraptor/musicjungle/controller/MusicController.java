@@ -26,6 +26,8 @@ import java.io.FileNotFoundException;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -69,11 +71,12 @@ public class MusicController {
 
 	private Result result;
 	private Validator validator;
-	private javax.validation.Validator v;
 	private UserInfo userInfo;
 	private MusicDao musicDao;
 	private Musics musics;
 
+
+	@PersistenceContext
 	private EntityManager em;
 
 	// CDI eyes only
@@ -219,10 +222,14 @@ public class MusicController {
 			.from(musicDao.listAll()).serialize();
 	}
 	
+	@Transactional
 	@Public @Path("/foo")
 	public void foo() {
 		Music music = new Music();
 //		v.validate(music);
+//		em.getTransaction().begin();
 		em.persist(music);
+//		em.getTransaction().commit();
+		
 	}
 }
